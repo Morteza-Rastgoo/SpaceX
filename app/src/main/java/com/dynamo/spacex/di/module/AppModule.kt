@@ -18,11 +18,13 @@ class AppModule {
     @Provides
     @Singleton
     internal fun provideOkHttpClient(): OkHttpClient {
-        val logging = HttpLoggingInterceptor()
-        logging.level = if (BuildConfig.DEBUG)
-            HttpLoggingInterceptor.Level.BODY
-        else
-            HttpLoggingInterceptor.Level.NONE
+        val logging = HttpLoggingInterceptor().apply {
+            level = if (BuildConfig.DEBUG)
+                HttpLoggingInterceptor.Level.BODY
+            else
+                HttpLoggingInterceptor.Level.NONE
+        }
+
         return OkHttpClient.Builder()
             .addInterceptor(logging)
             .build()
@@ -30,15 +32,18 @@ class AppModule {
 
     @Provides
     @Singleton
-    internal fun provideCurrencyService(okHttpClient: OkHttpClient): LaunchesService {
-        val gson = GsonBuilder().create()
-
-        val retrofit = Retrofit.Builder()
+    internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
             .baseUrl(BASE_API_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .client(okHttpClient)
             .build()
 
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideLaunchesService(retrofit: Retrofit): LaunchesService {
         return retrofit.create(LaunchesService::class.java)
     }
 
