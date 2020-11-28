@@ -1,7 +1,7 @@
 package com.dynamo.spacex.data.repository
 
-import com.dynamo.spacex.data.model.pastlaunch.Launch
 import com.dynamo.spacex.data.network.LaunchesService
+import com.dynamo.spacex.data.repository.model.PastLaunch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,13 +14,25 @@ import javax.inject.Singleton
 class LaunchesRepository @Inject constructor(private val launchesService: LaunchesService) {
 
 
+    /**
+     * Call to show the Past Launches
+     *  Optional Output Control QueryStrings
+     *         @param 	Sample	        Type	    Description
+     *  @param id        true	        boolean	    Set as true to show mongo document id's
+     *  @param limit    3	            integer	    Limit results returned, defaults to all documents returned
+     *  @param offset    3	            integer	    Offset or skip results from the beginning of the query
+     *  @param sort    flight_number	string	    Change result sorting by setting value to any parameter in this list
+     *  @param order    desc	        string	    Change result ordering by setting values of asc or desc
+     *  @return PastLaunch model including mission_name and the date part of launch_date_utc
+     */
     suspend fun getPastLaunches(
         id: Boolean = false,
         limit: Int = 15,
         offset: Int = 0,
         sort: String? = null,
         order: String = "desc",
-    ): List<Launch> {
+    ): List<PastLaunch> {
         return launchesService.getPastLaunches(id, limit, offset, sort, order)
+            .map { PastLaunch(missionName = it.mission_name, date = it.launch_date_utc) }
     }
 }
