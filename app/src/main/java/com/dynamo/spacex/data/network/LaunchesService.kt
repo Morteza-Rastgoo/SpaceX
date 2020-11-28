@@ -3,6 +3,7 @@ package com.dynamo.spacex.data.network
 import androidx.annotation.WorkerThread
 import com.dynamo.spacex.data.model.pastlaunch.Launch
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * @author : Morteza Rastgoo
@@ -13,6 +14,9 @@ interface LaunchesService {
 
     @WorkerThread
     @GET("launches/past")
-    suspend fun getPastLaunches(): List<Launch>
+    suspend fun getPastLaunches(
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+    ): List<Launch>
 
 }
