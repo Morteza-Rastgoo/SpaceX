@@ -1,5 +1,9 @@
 package com.dynamo.spacex.data.network
 
+import androidx.annotation.WorkerThread
+import com.dynamo.spacex.data.model.pastlaunch.Launch
+import retrofit2.http.GET
+
 /**
  * @author : Morteza Rastgoo
  * @since : 28/11/2020 AD
@@ -7,5 +11,8 @@ package com.dynamo.spacex.data.network
  **/
 interface LaunchesService {
 
+    @WorkerThread
+    @GET("launches/past")
+    suspend fun getPastLaunches(): List<Launch>
 
 }
