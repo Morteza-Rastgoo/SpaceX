@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "30.0.2"
+    compileSdkVersion rootProject.androidCompileSdkVersion
+    buildToolsVersion rootProject.androidBuildToolsVersion
 
     defaultConfig {
         applicationId "com.dynamo.spacex"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion rootProject.androidMinSdkVersion
+        targetSdkVersion rootProject.androidTargetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -26,14 +27,77 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.1'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //---- kotlin
+    implementation rootProject.kotlin.main
+    implementation rootProject.kotlin.coroutineCore
+    implementation rootProject.kotlin.coroutineAndroid
+    implementation rootProject.kotlin.reflect
+
+
+    //---- AndroidX
+    implementation rootProject.androidx.annotation
+    implementation rootProject.androidx.appcompat
+    implementation rootProject.androidx.viewpager2
+    implementation rootProject.androidx.viewpager
+    implementation rootProject.androidx.swiperefreshlayout
+    implementation rootProject.androidx.core
+    implementation rootProject.androidx.fragment
+    implementation rootProject.androidx.constraintlayout
+    implementation rootProject.androidx.livedata
+    implementation rootProject.androidx.cardview
+    implementation rootProject.androidx.lifecycle
+    implementation rootProject.androidx.recyclerview
+    implementation rootProject.androidx.navFrag
+    implementation rootProject.androidx.navUi
+    implementation rootProject.androidx.livedataKtx
+    implementation rootProject.androidx.viewmodel
+    implementation rootProject.androidx.viewmodelKtx
+    implementation rootProject.androidx.lifecycleRuntime
+    implementation rootProject.androidx.lifecycleCommon
+
+    //---- Dagger
+    implementation rootProject.dagger.main
+    kapt rootProject.dagger.compiler
+
+    //---- UI
+    implementation rootProject.ui.glide
+    kapt rootProject.ui.glideCompiler
+    implementation rootProject.ui.androidsvg
+    implementation rootProject.ui.fastadapterMain
+    implementation rootProject.ui.fastadapterUi
+    implementation rootProject.ui.fastadapterScroll
+    implementation rootProject.ui.fastadapterExtBinding
+    implementation rootProject.ui.fastadapterExtUtils
+    implementation rootProject.google.material
+
+    //---- Tools
+    implementation rootProject.tool.annotation
+    implementation rootProject.tool.coroutinePermission
+    implementation rootProject.tool.timber
+    debugImplementation rootProject.tool.leakcanary
+
+    //----- Retrofit
+    implementation rootProject.retrofit.main
+    implementation rootProject.retrofit.converter
+
+    //----- OkHttp
+    implementation rootProject.okhttp.main
+    implementation rootProject.okhttp.logging
+
+    //---- Test
+    testImplementation rootProject.test.unit
+    testImplementation rootProject.test.arch
+    testImplementation rootProject.test.coroutines
+    testImplementation rootProject.test.mockK
+    testImplementation rootProject.test.robolectric
+    debugImplementation rootProject.test.fragment
+    androidTestImplementation rootProject.test.core
+    androidTestImplementation rootProject.test.coreKtx
+    androidTestImplementation rootProject.test.junitKtx
+    androidTestImplementation rootProject.test.runner
+    androidTestImplementation rootProject.test.espressoCore
+    androidTestImplementation rootProject.test.espressoIntent
+    androidTestImplementation rootProject.test.junit
+    androidTestImplementation rootProject.test.navigation
 
 }
