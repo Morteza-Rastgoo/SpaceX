@@ -1,5 +1,6 @@
 package com.dynamo.spacex.data.repository
 
+import com.dynamo.spacex.data.network.LaunchesService
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -8,6 +9,7 @@ import javax.inject.Singleton
  * @since : 28/11/2020 AD
  **/
 @Singleton
-class LaunchesRepository @Inject constructor() {
+class LaunchesRepository @Inject constructor(private val launchesService: LaunchesService) {
+
 
 }
