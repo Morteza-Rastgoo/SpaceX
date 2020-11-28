@@ -11,7 +11,6 @@ import javax.inject.Provider
 
 @Reusable
 class ViewModelFactory @Inject constructor(
-    private val assistedFactories: Map<Class<out ViewModel>, @JvmSuppressWildcards AssistedSavedStateViewModelFactory<out ViewModel>>,
     private val viewModelProviders: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) {
     /**
@@ -24,10 +23,8 @@ class ViewModelFactory @Inject constructor(
                 modelClass: Class<T>,
                 handle: SavedStateHandle
             ): T {
-                val viewModel =
-                    createAssistedInjectViewModel(modelClass, handle)
-                        ?: createInjectViewModel(modelClass)
-                        ?: throw IllegalArgumentException("Unknown model class $modelClass")
+                val viewModel = createInjectViewModel(modelClass)
+                    ?: throw IllegalArgumentException("Unknown model class $modelClass")
 
                 try {
                     @Suppress("UNCHECKED_CAST")
@@ -38,20 +35,6 @@ class ViewModelFactory @Inject constructor(
             }
         }
 
-    /**
-     * Creates ViewModel based on @AssistedInject constructor and its factory
-     */
-    private fun <T : ViewModel?> createAssistedInjectViewModel(
-        modelClass: Class<T>,
-        handle: SavedStateHandle
-    ): ViewModel? {
-        val creator = assistedFactories[modelClass]
-            ?: assistedFactories.asIterable()
-                .firstOrNull { modelClass.isAssignableFrom(it.key) }?.value
-            ?: return null
-
-        return creator.create(handle)
-    }
 
     /**
      * Creates ViewModel based on regular Dagger @Inject constructor
