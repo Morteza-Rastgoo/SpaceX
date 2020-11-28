@@ -33,6 +33,18 @@ class LaunchesRepository @Inject constructor(private val launchesService: Launch
         order: String = "desc",
     ): List<PastLaunch> {
         return launchesService.getPastLaunches(id, limit, offset, sort, order)
-            .map { PastLaunch(missionName = it.mission_name, date = it.launch_date_utc) }
+            .map {
+                PastLaunch(
+                    flightNumber = it.flight_number,
+                    missionName = it.mission_name,
+                    date = it.launch_date_utc,
+                    description = "Rocket name: ${it.rocket.rocket_name}\n" +
+                            "Rocket type: ${it.rocket.rocket_type}\n" +
+                            "Launch site: ${it.launch_site.site_name}\n" +
+                            "Year: ${it.launch_year}\n" +
+                            "Launch success: " + if (it.launch_success) "Yes" else "No",
+                    videoLink = it.links.video_link
+                )
+            }
     }
 }
