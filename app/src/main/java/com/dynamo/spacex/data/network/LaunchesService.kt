@@ -1,7 +1,7 @@
 package com.dynamo.spacex.data.network
 
 import androidx.annotation.WorkerThread
-import com.dynamo.spacex.data.model.pastlaunch.Launch
+import com.dynamo.spacex.data.network.model.pastlaunch.Launch
 import retrofit2.http.GET
 import retrofit2.http.Query
 

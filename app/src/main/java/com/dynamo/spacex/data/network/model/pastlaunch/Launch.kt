@@ -1,4 +1,4 @@
-package com.dynamo.spacex.data.model.pastlaunch
+package com.dynamo.spacex.data.network.model.pastlaunch
 
 data class Launch(
     val details: String, // Engine failure at 33 seconds and loss of vehicle

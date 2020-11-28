@@ -1,4 +1,4 @@
-package com.dynamo.spacex.data.model.pastlaunch
+package com.dynamo.spacex.data.network.model.pastlaunch
 
 data class Core(
     val block: Any?, // null

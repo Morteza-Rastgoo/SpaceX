@@ -1,4 +1,4 @@
-package com.dynamo.spacex.data.model.pastlaunch
+package com.dynamo.spacex.data.network.model.pastlaunch
 
 data class Links(
     val article_link: String, // https://www.space.com/2196-spacex-inaugural-falcon-1-rocket-lost-launch.html
