@@ -6,6 +6,7 @@ import com.dynamo.spacex.data.repository.model.PastLaunch
 import com.dynamo.spacex.data.usecase.launches.GetPastLaunchesUseCase
 import com.dynamo.spacex.ui.base.BaseViewModel
 import com.dynamo.spacex.ui.base.ViewState
+import com.dynamo.spacex.util.extensions.notifyObservers
 import javax.inject.Inject
 
 class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: GetPastLaunchesUseCase) :
@@ -13,8 +14,8 @@ class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: 
     /**
      * List of Past Launches of SpaceX
      */
-    private val _pastLaunches = MutableLiveData<List<PastLaunch>>()
-    val pastLaunches: LiveData<List<PastLaunch>>
+    private val _pastLaunches = MutableLiveData<MutableList<PastLaunch>>(mutableListOf())
+    val pastLaunches: LiveData<MutableList<PastLaunch>>
         get() = _pastLaunches
 
     /**
@@ -43,7 +44,10 @@ class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: 
         val offset = currentPage * dataLimit
         launchDataLoad(if (currentPage == 0) ViewState.LOADING else ViewState.LOAD_MORE) {
             getPastLaunchesUseCase.invoke(offset).doOnSuccess {
-                _pastLaunches.value = it
+                _pastLaunches.apply {
+                    value?.addAll(it)
+                    notifyObservers()
+                }
                 _currentPage++
             }
         }
