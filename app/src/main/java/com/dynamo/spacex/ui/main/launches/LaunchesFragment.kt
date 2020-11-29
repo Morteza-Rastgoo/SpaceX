@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dynamo.spacex.R
 import com.dynamo.spacex.databinding.FragmentLaunchesBinding
 import com.dynamo.spacex.ui.base.BaseFragment
+import com.dynamo.spacex.ui.base.ViewState.*
+import com.dynamo.spacex.util.extensions.gone
 import com.dynamo.spacex.util.extensions.viewBinding
+import com.dynamo.spacex.util.extensions.visible
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
@@ -33,6 +36,7 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         observePastLaunches()
+        observeViewState()
     }
 
     private fun initRecyclerView() {
@@ -54,7 +58,12 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
             layoutManager = LinearLayoutManager(requireActivity())
             itemAnimator = DefaultItemAnimator()
             adapter = fastItemAdapter
-            addItemDecoration(DividerItemDecoration(requireActivity(), LinearLayoutManager.VERTICAL))
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireActivity(),
+                    LinearLayoutManager.VERTICAL
+                )
+            )
             val listener = object : EndlessRecyclerOnScrollListener(footerAdapter) {
                 override fun onLoadMore(currentPage: Int) {
                     footerAdapter.clear()
@@ -77,6 +86,26 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
         lifecycleScope.launchWhenCreated {
             viewModel.getPastLaunches()
         }
+    }
+
+    private fun observeViewState() {
+        viewModel.viewState.observe(viewLifecycleOwner, {
+            binding.apply {
+                when (it) {
+                    LOADING -> {
+                        loading.root.visible()
+                    }
+                    SHOW_DATA -> {
+                        loading.root.gone()
+                    }
+                    NO_INTERNET -> {
+                        // TODO: 29/11/2020 AD show no internet view
+                    }
+
+
+                }
+            }
+        })
     }
 
 }
