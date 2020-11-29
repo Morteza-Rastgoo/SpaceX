@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dynamo.spacex.R
+import com.dynamo.spacex.data.repository.model.PastLaunch
 import com.dynamo.spacex.databinding.FragmentLaunchesBinding
 import com.dynamo.spacex.ui.base.BaseFragment
 import com.dynamo.spacex.ui.base.ViewState.*
+import com.dynamo.spacex.ui.main.launchdetail.LaunchDetailsFragmentArgs
 import com.dynamo.spacex.util.extensions.gone
 import com.dynamo.spacex.util.extensions.viewBinding
 import com.dynamo.spacex.util.extensions.visible
@@ -54,7 +56,11 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
 
         //configure onclick
         fastItemAdapter.onClickListener = { v, _, item, _ ->
-            findNavController().navigate(R.id.action_mainFragment_to_launchDetailsFragment,)
+            findNavController().navigate(
+                R.id.action_mainFragment_to_launchDetailsFragment, LaunchDetailsFragmentArgs(
+                    item as PastLaunch
+                ).toBundle()
+            )
             true
         }
 
@@ -115,7 +121,7 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
                         error.icon.setImageResource(R.drawable.ic_baseline_error_outline_24)
                         error.textViewError.text = getString(R.string.sorry_something_went_wrong)
                     }
-                    else ->{
+                    else -> {
 
                     }
                 }
