@@ -3,7 +3,6 @@ package com.dynamo.spacex.ui.main.launches
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -34,6 +33,7 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
     private val binding: FragmentLaunchesBinding by viewBinding()
     private lateinit var fastItemAdapter: GenericFastItemAdapter
     private lateinit var footerAdapter: GenericItemAdapter
+    private lateinit var scrollListener: EndlessRecyclerOnScrollListener
 
     override fun initInjection() {
         getAppComponent().launchesComponent().create().inject(this)
@@ -75,7 +75,7 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
                     LinearLayoutManager.VERTICAL
                 )
             )
-            val listener = object : EndlessRecyclerOnScrollListener(footerAdapter) {
+            scrollListener = object : EndlessRecyclerOnScrollListener(footerAdapter) {
                 override fun onLoadMore(currentPage: Int) {
                     footerAdapter.clear()
                     val progressItem = ProgressItem()
@@ -84,21 +84,25 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
                     viewModel.getPastLaunches()
                 }
             }
-            addOnScrollListener(listener)
+            addOnScrollListener(scrollListener)
         }
     }
 
+    /**
+     * Listen to the pastLaunches and update recyclerView adapter
+     */
     private fun observePastLaunches() {
         viewModel.pastLaunches.observe(viewLifecycleOwner, {
             footerAdapter.clear()
             fastItemAdapter.setNewList(it)
 
         })
-        lifecycleScope.launchWhenCreated {
-            viewModel.getPastLaunches()
-        }
+        viewModel.getPastLaunches()
     }
 
+    /**
+     * Listen to the viewState and change UI
+     */
     private fun observeViewState() {
         viewModel.viewState.observe(viewLifecycleOwner, {
             binding.apply {
@@ -129,4 +133,12 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
         })
     }
 
+    /**
+     * Release callbacks to avoid leaks
+     */
+    override fun onDestroy() {
+        binding.recyclerView.removeOnScrollListener(scrollListener)
+        fastItemAdapter.onClickListener = null
+        super.onDestroy()
+    }
 }
