@@ -15,7 +15,7 @@ import java.util.regex.Pattern
  */
 fun String?.parseDate(): String {
     val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
-    val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US)
+    val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
     var date: String
     date = try {
         formatter.format(parser.parse(this))
