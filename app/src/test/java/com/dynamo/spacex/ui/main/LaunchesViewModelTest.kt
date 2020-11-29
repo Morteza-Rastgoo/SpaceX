@@ -1,8 +1,8 @@
 package com.dynamo.spacex.ui.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.dynamo.spacex.data.repository.LaunchesRepository
 import com.dynamo.spacex.data.repository.model.PastLaunch
+import com.dynamo.spacex.data.usecase.launches.GetPastLaunchesUseCase
 import com.dynamo.spacex.util.CoroutineTestRule
 import com.dynamo.spacex.util.TestCoroutineRule
 import io.mockk.MockKAnnotations
@@ -37,7 +37,7 @@ class LaunchesViewModelTest {
     private lateinit var launchesViewModel: LaunchesViewModel
 
     @MockK
-    lateinit var launchesRepository: LaunchesRepository
+    lateinit var getPastLaunchesUseCase: GetPastLaunchesUseCase
 
     val pastLaunch = PastLaunch(
         flightNumber = 1,
@@ -54,10 +54,10 @@ class LaunchesViewModelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        launchesViewModel = LaunchesViewModel(launchesRepository)
+        launchesViewModel = LaunchesViewModel(getPastLaunchesUseCase)
 
         coEvery {
-            launchesRepository.getPastLaunches(any(), any())
+            getPastLaunchesUseCase.invoke(any())
         } returns listOf(pastLaunch)
     }
 
@@ -77,7 +77,6 @@ class LaunchesViewModelTest {
 
     @Test
     fun getPastLaunches() = testCoroutineRule.runBlockingTest {
-        //Todo fix the test
         launchesViewModel.getPastLaunches()
         val value = launchesViewModel.pastLaunches.value
         assertEquals(value, listOf(pastLaunch))

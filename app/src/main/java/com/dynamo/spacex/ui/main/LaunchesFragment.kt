@@ -3,6 +3,7 @@ package com.dynamo.spacex.ui.main
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.dynamo.spacex.R
 import com.dynamo.spacex.ui.base.BaseFragment
 
@@ -24,7 +25,9 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
 
 
         })
-        viewModel.getPastLaunches()
+        lifecycleScope.launchWhenCreated {
+            viewModel.getPastLaunches()
+        }
     }
 
 }

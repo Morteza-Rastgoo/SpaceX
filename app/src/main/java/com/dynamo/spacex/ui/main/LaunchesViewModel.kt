@@ -2,13 +2,13 @@ package com.dynamo.spacex.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dynamo.spacex.data.repository.LaunchesRepository
 import com.dynamo.spacex.data.repository.model.PastLaunch
+import com.dynamo.spacex.data.usecase.launches.GetPastLaunchesUseCase
 import com.dynamo.spacex.ui.base.BaseViewModel
 import com.dynamo.spacex.ui.base.ViewState
 import javax.inject.Inject
 
-class LaunchesViewModel @Inject constructor(private val launchesRepository: LaunchesRepository) :
+class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: GetPastLaunchesUseCase) :
     BaseViewModel() {
     /**
      * List of Past Launches of SpaceX
@@ -39,14 +39,30 @@ class LaunchesViewModel @Inject constructor(private val launchesRepository: Laun
     /**
      * Loads past launches. This will also handle the pagination.
      */
-    fun getPastLaunches() {
+    suspend fun getPastLaunches() {
         val offset = currentPage * dataLimit
-        _pastLaunches.value =
-            launchDataLoad(if (currentPage == 0) ViewState.LOADING else ViewState.LOAD_MORE) {
-                launchesRepository.getPastLaunches(offset = offset, limit = dataLimit)
+        launchDataLoad(if (currentPage == 0) ViewState.LOADING else ViewState.LOAD_MORE) {
+            getPastLaunchesUseCase.invoke(offset).doOnSuccess {
+                _pastLaunches.value = it
+                _currentPage++
             }
-        _currentPage++
-
+        }
     }
 
+}
+
+/**
+ * Updates value of [liveData] if [Result] is of type [Success]
+ */
+inline fun <reified T> T.updateOnSuccess(liveData: MutableLiveData<T>): T {
+    liveData.value = this
+    return this
+}
+
+/**
+ * Updates value of [liveData] if [Result] is of type [Success]
+ */
+inline fun <reified T> T.doOnSuccess(callback: (T) -> Unit): T {
+    callback.invoke(this)
+    return this
 }

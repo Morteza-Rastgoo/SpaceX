@@ -3,9 +3,7 @@ package com.dynamo.spacex.ui.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -28,7 +26,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
      * Handles the threading of the coroutine in IO Dispatcher. Also changes the view state to show
      * and hide the loading and show error if necessary.
      */
-    fun<T> launchDataLoad(
+    suspend fun <T> launchDataLoad(
         loadingState: ViewState = ViewState.LOADING,
         block: suspend () -> T
     ): T? {
@@ -38,9 +36,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
             viewState.value = loadingState
             try {
                 //Do the heavy work in background thread
-                result = withContext(Dispatchers.IO) {
-                    block()
-                }
+                result = block()
                 viewState.value = ViewState.SHOW_DATA
             } catch (e: Exception) {
                 e.printStackTrace()
