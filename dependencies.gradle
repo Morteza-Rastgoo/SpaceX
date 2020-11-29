@@ -48,9 +48,9 @@ ext {
     testEspressoVersion = '3.3.0'
     testJunitVersion = '4.13'
     testArchCoreVersion = '1.1.1'
-    testMockitoVersion = '2.19.0'
+    testMockitoVersion = '3.6.28'
     testRobolectricVersion = '4.3.1'
-    testMockKVersion = '1.10.0'
+    testMockKVersion = '1.10.2'
 
     kotlin = [
             main            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",

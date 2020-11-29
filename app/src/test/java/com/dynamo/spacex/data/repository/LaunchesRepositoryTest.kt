@@ -27,10 +27,10 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class LaunchesRepositoryTest {
 
-    private lateinit var launchesRepository: LaunchesRepository
-
     @get:Rule
     var testCoroutineRole = TestCoroutineRule()
+
+    private lateinit var launchesRepository: LaunchesRepository
 
     @MockK
     lateinit var launchesService: LaunchesService
