@@ -6,6 +6,8 @@ import com.dynamo.spacex.data.network.LaunchesService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -45,6 +47,12 @@ class AppModule {
     @Singleton
     internal fun provideLaunchesService(retrofit: Retrofit): LaunchesService {
         return retrofit.create(LaunchesService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideCoroutineDispatcher(retrofit: Retrofit): CoroutineDispatcher {
+        return Dispatchers.IO
     }
 
 }
