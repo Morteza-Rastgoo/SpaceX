@@ -1,5 +1,6 @@
 package com.dynamo.spacex.ui.base
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dynamo.spacex.SpaceXApplication
@@ -20,6 +21,12 @@ abstract class BaseFragment(resID: Int) : Fragment(resID) {
     fun getAppComponent(): AppComponent {
         return (requireActivity().application as SpaceXApplication).appComponent
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initInjection()
+    }
+
 
     /**
      * This method androidx uses for `by viewModels` method.
