@@ -15,7 +15,7 @@
         android:layout_centerInParent="true"
         android:layout_margin="8dp"
         app:srcCompat="@drawable/ic_baseline_error_outline_24"
-        app:tint="?android:attr/colorPrimary" />
+        app:tint="?android:attr/colorAccent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewError"
@@ -24,7 +24,7 @@
         android:layout_below="@id/icon"
         android:layout_centerHorizontal="true"
         android:text="@string/sorry_something_went_wrong"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="?attr/colorAccent"
         />
 
 </RelativeLayout>

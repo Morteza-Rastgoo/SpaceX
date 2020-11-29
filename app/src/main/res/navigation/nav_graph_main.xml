@@ -9,5 +9,20 @@
         android:id="@+id/mainFragment"
         android:name="com.dynamo.spacex.ui.main.launches.LaunchesFragment"
         android:label="main_fragment"
-        tools:layout="@layout/fragment_launches" />
+        tools:layout="@layout/fragment_launches" >
+        <action
+            android:id="@+id/action_mainFragment_to_launchDetailsFragment"
+            app:destination="@id/launchDetailsFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/launchDetailsFragment"
+        android:name="com.dynamo.spacex.ui.main.launchdetail.LaunchDetailsFragment"
+        android:label="launch_details_fragment"
+        tools:layout="@layout/launch_details_fragment" >
+        <argument
+            android:name="pastLaunch"
+            app:argType="com.dynamo.spacex.data.repository.model.PastLaunch" />
+    </fragment>
 </navigation>

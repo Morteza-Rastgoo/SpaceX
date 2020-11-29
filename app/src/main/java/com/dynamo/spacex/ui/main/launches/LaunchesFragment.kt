@@ -3,14 +3,16 @@ package com.dynamo.spacex.ui.main.launches
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dynamo.spacex.R
+import com.dynamo.spacex.data.repository.model.PastLaunch
 import com.dynamo.spacex.databinding.FragmentLaunchesBinding
 import com.dynamo.spacex.ui.base.BaseFragment
 import com.dynamo.spacex.ui.base.ViewState.*
+import com.dynamo.spacex.ui.main.launchdetail.LaunchDetailsFragmentArgs
 import com.dynamo.spacex.util.extensions.gone
 import com.dynamo.spacex.util.extensions.viewBinding
 import com.dynamo.spacex.util.extensions.visible
@@ -21,12 +23,17 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter.Companion.items
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 
+/**
+ * @author : Morteza Rastgoo
+ * @since : 28/11/2020 AD
+ **/
 class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
 
     private val viewModel: LaunchesViewModel by viewModels()
     private val binding: FragmentLaunchesBinding by viewBinding()
     private lateinit var fastItemAdapter: GenericFastItemAdapter
     private lateinit var footerAdapter: GenericItemAdapter
+    private lateinit var scrollListener: EndlessRecyclerOnScrollListener
 
     override fun initInjection() {
         getAppComponent().launchesComponent().create().inject(this)
@@ -49,8 +56,12 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
 
         //configure onclick
         fastItemAdapter.onClickListener = { v, _, item, _ ->
-            // TODO: 29/11/2020 AD Go to new page
-            false
+            findNavController().navigate(
+                R.id.action_mainFragment_to_launchDetailsFragment, LaunchDetailsFragmentArgs(
+                    item as PastLaunch
+                ).toBundle()
+            )
+            true
         }
 
         //get our recyclerView and do basic setup
@@ -64,7 +75,7 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
                     LinearLayoutManager.VERTICAL
                 )
             )
-            val listener = object : EndlessRecyclerOnScrollListener(footerAdapter) {
+            scrollListener = object : EndlessRecyclerOnScrollListener(footerAdapter) {
                 override fun onLoadMore(currentPage: Int) {
                     footerAdapter.clear()
                     val progressItem = ProgressItem()
@@ -73,21 +84,25 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
                     viewModel.getPastLaunches()
                 }
             }
-            addOnScrollListener(listener)
+            addOnScrollListener(scrollListener)
         }
     }
 
+    /**
+     * Listen to the pastLaunches and update recyclerView adapter
+     */
     private fun observePastLaunches() {
         viewModel.pastLaunches.observe(viewLifecycleOwner, {
             footerAdapter.clear()
             fastItemAdapter.setNewList(it)
 
         })
-        lifecycleScope.launchWhenCreated {
-            viewModel.getPastLaunches()
-        }
+        viewModel.getPastLaunches()
     }
 
+    /**
+     * Listen to the viewState and change UI
+     */
     private fun observeViewState() {
         viewModel.viewState.observe(viewLifecycleOwner, {
             binding.apply {
@@ -110,7 +125,7 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
                         error.icon.setImageResource(R.drawable.ic_baseline_error_outline_24)
                         error.textViewError.text = getString(R.string.sorry_something_went_wrong)
                     }
-                    else ->{
+                    else -> {
 
                     }
                 }
@@ -118,4 +133,12 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
         })
     }
 
+    /**
+     * Release callbacks to avoid leaks
+     */
+    override fun onDestroy() {
+        binding.recyclerView.removeOnScrollListener(scrollListener)
+        fastItemAdapter.onClickListener = null
+        super.onDestroy()
+    }
 }

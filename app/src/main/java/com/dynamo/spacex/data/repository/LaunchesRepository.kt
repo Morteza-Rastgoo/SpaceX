@@ -2,8 +2,8 @@ package com.dynamo.spacex.data.repository
 
 import com.dynamo.spacex.data.network.LaunchesService
 import com.dynamo.spacex.data.repository.model.PastLaunch
-import java.text.SimpleDateFormat
-import java.util.*
+import com.dynamo.spacex.util.extensions.getYouTubeId
+import com.dynamo.spacex.util.extensions.parseDate
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,30 +33,18 @@ class LaunchesRepository @Inject constructor(private val launchesService: Launch
                 PastLaunch(
                     flightNumber = it.flight_number,
                     missionName = it.mission_name,
-                    date = parseDate(it.launch_date_utc),
+                    date = it.launch_date_utc.parseDate(),
                     description = "Rocket name: ${it.rocket?.rocket_name}\n" +
                             "Rocket type: ${it.rocket?.rocket_type}\n" +
                             "Launch site: ${it.launch_site?.site_name}\n" +
                             "Year: ${it.launch_year}\n" +
                             "Launch success: " + if (it.launch_success) "Yes" else "No",
-                    videoLink = it.links?.video_link
+                    youtubeId = it.links?.video_link.getYouTubeId(),
+                    imageLink = it.links?.flickr_images?.firstOrNull() ?: it.links?.mission_patch
+                    ?: "",
                 )
             }
     }
 
-    /**
-     * A simple function to parse the date to human readable format
-     * todo: Move this to a Utility class or extension function
-     */
-    private fun parseDate(dateString: String?): String {
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
-        val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US)
-        var date: String
-        date = try {
-            formatter.format(parser.parse(dateString))
-        } catch (e: Exception) {
-            dateString.toString()
-        }
-        return date
-    }
+
 }
