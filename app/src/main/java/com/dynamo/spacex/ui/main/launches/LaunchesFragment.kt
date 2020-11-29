@@ -99,14 +99,20 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
                         loading.root.gone()
                     }
                     NO_INTERNET -> {
-                        // TODO: 29/11/2020 AD show no internet view
+                        loading.root.gone()
+                        error.root.visible()
+                        error.icon.setImageResource(R.drawable.ic_baseline_wifi_off_24)
+                        error.textViewError.text = getString(R.string.no_internet_connection)
                     }
                     GENERAL_ERROR -> {
                         loading.root.gone()
                         error.root.visible()
+                        error.icon.setImageResource(R.drawable.ic_baseline_error_outline_24)
+                        error.textViewError.text = getString(R.string.sorry_something_went_wrong)
                     }
+                    else ->{
 
-
+                    }
                 }
             }
         })
