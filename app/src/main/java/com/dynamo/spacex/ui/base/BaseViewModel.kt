@@ -33,14 +33,13 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     fun <T> launchDataLoad(
         loadingState: ViewState = ViewState.LOADING,
         block: suspend () -> T
-    ): T? {
-        var result: T? = null
+    ) {
         viewModelScope.launch {
             if (application.isNetworkAvailable()) {
                 viewState.value = loadingState
                 try {
                     //Do the heavy work in background thread
-                    result = block()
+                    block()
                     viewState.value = ViewState.SHOW_DATA
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -50,7 +49,6 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
                 viewState.value = ViewState.NO_INTERNET
             }
         }
-        return result
     }
 
 }
