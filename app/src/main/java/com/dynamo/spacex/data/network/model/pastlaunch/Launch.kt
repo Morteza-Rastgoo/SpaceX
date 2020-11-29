@@ -9,7 +9,7 @@ data class Launch(
     val launch_date_utc: String? = null, // 2006-03-24T22:30:00.000Z
     val launch_failure_details: LaunchFailureDetails? = null,
     val launch_site: LaunchSite? = null,
-    val launch_success: Boolean? = null, // false
+    val launch_success: Boolean = false, // false
     val launch_window: Int? = null, // 0
     val launch_year: String? = null, // 2006
     val links: Links? = null,
