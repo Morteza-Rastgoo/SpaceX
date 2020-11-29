@@ -6,6 +6,7 @@ import com.dynamo.spacex.data.repository.model.PastLaunch
 import com.dynamo.spacex.data.usecase.launches.GetPastLaunchesUseCase
 import com.dynamo.spacex.ui.base.BaseViewModel
 import com.dynamo.spacex.ui.base.ViewState
+import com.dynamo.spacex.util.extensions.doOnSuccess
 import com.dynamo.spacex.util.extensions.notifyObservers
 import javax.inject.Inject
 
@@ -53,20 +54,4 @@ class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: 
         }
     }
 
-}
-
-/**
- * Updates value of [liveData] if [Result] is of type [Success]
- */
-inline fun <reified T> T.updateOnSuccess(liveData: MutableLiveData<T>): T {
-    liveData.value = this
-    return this
-}
-
-/**
- * Updates value of [liveData] if [Result] is of type [Success]
- */
-inline fun <reified T> T.doOnSuccess(callback: (T) -> Unit): T {
-    callback.invoke(this)
-    return this
 }
