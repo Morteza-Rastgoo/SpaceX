@@ -20,10 +20,6 @@ import com.mikepenz.fastadapter.ui.items.ProgressItem
 
 class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
 
-    companion object {
-        fun newInstance() = LaunchesFragment()
-    }
-
     private val viewModel: LaunchesViewModel by viewModels()
     private val binding: FragmentLaunchesBinding by viewBinding()
     private lateinit var fastItemAdapter: GenericFastItemAdapter
@@ -53,7 +49,6 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
             false
         }
 
-
         //get our recyclerView and do basic setup
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireActivity())
@@ -71,7 +66,6 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
             }
             addOnScrollListener(listener)
         }
-
     }
 
     private fun observePastLaunches() {
