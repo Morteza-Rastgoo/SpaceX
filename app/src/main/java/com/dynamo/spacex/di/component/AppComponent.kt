@@ -1,6 +1,6 @@
 package com.dynamo.spacex.di.component
 
-import android.content.Context
+import com.dynamo.spacex.SpaceXApplication
 import com.dynamo.spacex.di.module.AppModule
 import com.dynamo.spacex.di.module.usecase.LaunchesModule
 import com.dynamo.spacex.di.subcomponent.AppSubComponents
@@ -21,11 +21,12 @@ import javax.inject.Singleton
 )
 interface AppComponent {
 
-    // Factory to create instances of the AppComponent
-    @Component.Factory
-    interface Factory {
-        // With @BindsInstance, the Context passed in will be available in the graph
-        fun create(@BindsInstance context: Context): AppComponent
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(application: SpaceXApplication): Builder
+        fun appModule(appModule: AppModule): Builder
+        fun build(): AppComponent
     }
 
     // Types that can be retrieved from the graph

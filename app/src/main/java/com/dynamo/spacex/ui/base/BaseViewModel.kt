@@ -1,8 +1,10 @@
 package com.dynamo.spacex.ui.base
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dynamo.spacex.util.extensions.isNetworkAvailable
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +23,8 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     val viewState: MutableLiveData<ViewState>
         get() = _viewState
 
+    @Inject
+    lateinit var application: Application
 
     /**
      * Handles the threading of the coroutine in IO Dispatcher. Also changes the view state to show
@@ -32,15 +36,18 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     ): T? {
         var result: T? = null
         viewModelScope.launch {
-            // TODO: 29/11/2020 AD Handle No internet condition
-            viewState.value = loadingState
-            try {
-                //Do the heavy work in background thread
-                result = block()
-                viewState.value = ViewState.SHOW_DATA
-            } catch (e: Exception) {
-                e.printStackTrace()
-                viewState.value = ViewState.GENERAL_ERROR
+            if (application.isNetworkAvailable()) {
+                viewState.value = loadingState
+                try {
+                    //Do the heavy work in background thread
+                    result = block()
+                    viewState.value = ViewState.SHOW_DATA
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    viewState.value = ViewState.GENERAL_ERROR
+                }
+            } else {
+                viewState.value = ViewState.NO_INTERNET
             }
         }
         return result
