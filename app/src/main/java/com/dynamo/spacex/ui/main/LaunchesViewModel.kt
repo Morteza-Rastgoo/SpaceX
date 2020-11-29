@@ -8,8 +8,7 @@ import com.dynamo.spacex.ui.base.BaseViewModel
 import com.dynamo.spacex.ui.base.ViewState
 import javax.inject.Inject
 
-// TODO: 29/11/2020 AD Rename it to LaunchesViewModel and rename all related code
-class MainViewModel @Inject constructor(private val launchesRepository: LaunchesRepository) :
+class LaunchesViewModel @Inject constructor(private val launchesRepository: LaunchesRepository) :
     BaseViewModel() {
     /**
      * List of Past Launches of SpaceX

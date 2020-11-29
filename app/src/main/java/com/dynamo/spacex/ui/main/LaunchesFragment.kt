@@ -5,16 +5,16 @@ import androidx.fragment.app.viewModels
 import com.dynamo.spacex.R
 import com.dynamo.spacex.ui.base.BaseFragment
 
-class MainFragment : BaseFragment(R.layout.main_fragment) {
+class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = LaunchesFragment()
     }
 
-    val viewModel: MainViewModel by viewModels()
+    val viewModel: LaunchesViewModel by viewModels()
 
     override fun initInjection() {
-        getAppComponent().mainComponent().create().inject(this)
+        getAppComponent().launchesComponent().create().inject(this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

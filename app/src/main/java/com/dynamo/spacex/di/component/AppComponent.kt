@@ -29,5 +29,5 @@ interface AppComponent {
     }
 
     // Types that can be retrieved from the graph
-    fun mainComponent(): MainComponent.Factory
+    fun launchesComponent(): LaunchesComponent.Factory
 }
