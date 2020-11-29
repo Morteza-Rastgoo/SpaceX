@@ -3,4 +3,5 @@
     <string name="launch_date">LaunchDate:</string>
     <string name="mission_name">Mission Name:</string>
     <string name="please_wait_">Please wait...</string>
+    <string name="sorry_something_went_wrong">Sorry... Something went wrong!</string>
 </resources>

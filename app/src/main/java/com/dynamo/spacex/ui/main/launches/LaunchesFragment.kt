@@ -101,6 +101,10 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
                     NO_INTERNET -> {
                         // TODO: 29/11/2020 AD show no internet view
                     }
+                    GENERAL_ERROR -> {
+                        loading.root.gone()
+                        error.root.visible()
+                    }
 
 
                 }
