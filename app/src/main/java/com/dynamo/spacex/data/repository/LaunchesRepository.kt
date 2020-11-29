@@ -39,7 +39,9 @@ class LaunchesRepository @Inject constructor(private val launchesService: Launch
                             "Launch site: ${it.launch_site?.site_name}\n" +
                             "Year: ${it.launch_year}\n" +
                             "Launch success: " + if (it.launch_success) "Yes" else "No",
-                    videoLink = it.links?.video_link
+                    videoLink = it.links?.video_link,
+                    imageLink = it.links?.flickr_images?.firstOrNull() ?: it.links?.mission_patch
+                    ?: "",
                 )
             }
     }

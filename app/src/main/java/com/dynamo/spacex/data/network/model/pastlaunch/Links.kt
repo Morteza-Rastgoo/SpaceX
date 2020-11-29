@@ -2,7 +2,7 @@ package com.dynamo.spacex.data.network.model.pastlaunch
 
 data class Links(
     val article_link: String = "", // https://www.space.com/2196-spacex-inaugural-falcon-1-rocket-lost-launch.html
-    val flickr_images: List<Any>? = null,
+    val flickr_images: List<String>? = null,
     val mission_patch: String = "", // https://images2.imgbox.com/40/e3/GypSkayF_o.png
     val mission_patch_small: String = "", // https://images2.imgbox.com/3c/0e/T8iJcSN3_o.png
     val presskit: Any? = null, // null

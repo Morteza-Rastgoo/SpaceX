@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import com.dynamo.spacex.R
 import com.dynamo.spacex.databinding.LaunchDetailsFragmentBinding
 import com.dynamo.spacex.ui.base.BaseFragment
+import com.dynamo.spacex.util.extensions.loadUrl
 import com.dynamo.spacex.util.extensions.viewBinding
 
 /**
@@ -24,7 +25,14 @@ class LaunchDetailsFragment : BaseFragment(R.layout.launch_details_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.apply {
+            args.pastLaunch.apply {
+                imageView.loadUrl(imageLink, isCircle = true)
+                textViewName.text = missionName
+                textViewDate.text = date
+                textViewDescription.text = description
+            }
+        }
     }
 
 }
