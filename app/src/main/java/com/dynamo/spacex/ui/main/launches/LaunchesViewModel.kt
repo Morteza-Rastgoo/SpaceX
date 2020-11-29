@@ -1,4 +1,4 @@
-package com.dynamo.spacex.ui.main
+package com.dynamo.spacex.ui.main.launches
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -41,7 +41,7 @@ class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: 
     /**
      * Loads past launches. This will also handle the pagination.
      */
-    suspend fun getPastLaunches() {
+    fun getPastLaunches() {
         val offset = currentPage * dataLimit
         launchDataLoad(if (currentPage == 0) ViewState.LOADING else ViewState.LOAD_MORE) {
             getPastLaunchesUseCase.invoke(offset).doOnSuccess {

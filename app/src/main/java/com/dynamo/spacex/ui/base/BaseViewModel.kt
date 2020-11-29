@@ -26,7 +26,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
      * Handles the threading of the coroutine in IO Dispatcher. Also changes the view state to show
      * and hide the loading and show error if necessary.
      */
-    suspend fun <T> launchDataLoad(
+    fun <T> launchDataLoad(
         loadingState: ViewState = ViewState.LOADING,
         block: suspend () -> T
     ): T? {

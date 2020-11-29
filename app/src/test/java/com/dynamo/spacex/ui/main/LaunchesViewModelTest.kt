@@ -3,6 +3,7 @@ package com.dynamo.spacex.ui.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.dynamo.spacex.data.repository.model.PastLaunch
 import com.dynamo.spacex.data.usecase.launches.GetPastLaunchesUseCase
+import com.dynamo.spacex.ui.main.launches.LaunchesViewModel
 import com.dynamo.spacex.util.CoroutineTestRule
 import com.dynamo.spacex.util.TestCoroutineRule
 import io.mockk.MockKAnnotations

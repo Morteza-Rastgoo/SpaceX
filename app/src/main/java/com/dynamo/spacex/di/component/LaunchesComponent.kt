@@ -2,7 +2,7 @@ package com.dynamo.spacex.di.component
 
 import com.dynamo.spacex.di.module.viewmodel.LaunchesViewModelModule
 import com.dynamo.spacex.di.scope.MainScope
-import com.dynamo.spacex.ui.main.LaunchesFragment
+import com.dynamo.spacex.ui.main.launches.LaunchesFragment
 import dagger.Subcomponent
 
 // Scope annotation that the LoginComponent uses
