@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,10 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter.Companion.items
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 
+/**
+ * @author : Morteza Rastgoo
+ * @since : 28/11/2020 AD
+ **/
 class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
 
     private val viewModel: LaunchesViewModel by viewModels()
@@ -49,8 +54,8 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
 
         //configure onclick
         fastItemAdapter.onClickListener = { v, _, item, _ ->
-            // TODO: 29/11/2020 AD Go to new page
-            false
+            findNavController().navigate(R.id.action_mainFragment_to_launchDetailsFragment,)
+            true
         }
 
         //get our recyclerView and do basic setup

@@ -10,6 +10,10 @@ import com.dynamo.spacex.util.extensions.doOnSuccess
 import com.dynamo.spacex.util.extensions.notifyObservers
 import javax.inject.Inject
 
+/**
+ * @author : Morteza Rastgoo
+ * @since : 28/11/2020 AD
+ **/
 class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: GetPastLaunchesUseCase) :
     BaseViewModel() {
     /**
