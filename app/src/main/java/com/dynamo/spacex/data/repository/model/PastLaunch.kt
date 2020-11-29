@@ -17,7 +17,7 @@ data class PastLaunch(
     val missionName: String?,
     val date: String?,
     val description: String,
-    val videoLink: String?,
+    val youtubeId: String?,
     val imageLink: String?,
 ) : AbstractBindingItem<RowPastLaunchBinding>(), Parcelable {
     override val type: Int

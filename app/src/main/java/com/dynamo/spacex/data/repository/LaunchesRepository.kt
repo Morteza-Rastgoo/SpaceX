@@ -4,6 +4,8 @@ import com.dynamo.spacex.data.network.LaunchesService
 import com.dynamo.spacex.data.repository.model.PastLaunch
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,7 +41,7 @@ class LaunchesRepository @Inject constructor(private val launchesService: Launch
                             "Launch site: ${it.launch_site?.site_name}\n" +
                             "Year: ${it.launch_year}\n" +
                             "Launch success: " + if (it.launch_success) "Yes" else "No",
-                    videoLink = it.links?.video_link,
+                    youtubeId = getYouTubeId(it.links?.video_link),
                     imageLink = it.links?.flickr_images?.firstOrNull() ?: it.links?.mission_patch
                     ?: "",
                 )
@@ -60,5 +62,23 @@ class LaunchesRepository @Inject constructor(private val launchesService: Launch
             dateString.toString()
         }
         return date
+    }
+
+    /**
+     * Get youtube id from url
+     */
+    private fun getYouTubeId(youTubeUrl: String?): String? {
+        return try {
+            val pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed/)[^#&?]*"
+            val compiledPattern: Pattern = Pattern.compile(pattern)
+            val matcher: Matcher = compiledPattern.matcher(youTubeUrl)
+            if (matcher.find()) {
+                matcher.group()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
     }
 }

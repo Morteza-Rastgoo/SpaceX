@@ -70,7 +70,7 @@ class LaunchesRepositoryTest {
                         "Launch site: Kwajalein Atoll\n" +
                         "Year: 2006\n" +
                         "Launch success: No",
-                videoLink = "https://www.youtube.com/watch?v=0a_00nJ_Y88"
+                youtubeId = "https://www.youtube.com/watch?v=0a_00nJ_Y88"
             )
 
             val first = launchesRepository.getPastLaunches().first()

@@ -84,6 +84,7 @@ dependencies {
     implementation rootProject.ui.fastadapterScroll
     implementation rootProject.ui.fastadapterExtBinding
     implementation rootProject.ui.fastadapterExtUtils
+    implementation rootProject.ui.youtubePlayer
     implementation rootProject.google.material
 
     //---- Tools

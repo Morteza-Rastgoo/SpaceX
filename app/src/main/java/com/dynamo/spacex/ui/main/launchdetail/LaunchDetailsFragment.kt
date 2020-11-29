@@ -7,8 +7,11 @@ import androidx.navigation.fragment.navArgs
 import com.dynamo.spacex.R
 import com.dynamo.spacex.databinding.LaunchDetailsFragmentBinding
 import com.dynamo.spacex.ui.base.BaseFragment
+import com.dynamo.spacex.util.extensions.gone
 import com.dynamo.spacex.util.extensions.loadUrl
 import com.dynamo.spacex.util.extensions.viewBinding
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
 /**
  * @author : Morteza Rastgoo
@@ -31,6 +34,15 @@ class LaunchDetailsFragment : BaseFragment(R.layout.launch_details_fragment) {
                 textViewName.text = missionName
                 textViewDate.text = date
                 textViewDescription.text = description
+                youtubePlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                    override fun onReady(player: YouTubePlayer) {
+                        if (youtubeId != null) {
+                            player.cueVideo(youtubeId, 0f)
+                        } else {
+                            youtubePlayer.gone()
+                        }
+                    }
+                })
             }
         }
     }
