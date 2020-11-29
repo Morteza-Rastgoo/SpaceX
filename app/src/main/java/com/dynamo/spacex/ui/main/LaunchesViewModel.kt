@@ -39,12 +39,14 @@ class LaunchesViewModel @Inject constructor(private val launchesRepository: Laun
     /**
      * Loads past launches. This will also handle the pagination.
      */
-    fun getPastLaunches() =
-        launchDataLoad(if (currentPage == 0) ViewState.LOADING else ViewState.LOAD_MORE) {
-            val offset = currentPage * dataLimit
-            _pastLaunches.value =
+    fun getPastLaunches() {
+        val offset = currentPage * dataLimit
+        _pastLaunches.value =
+            launchDataLoad(if (currentPage == 0) ViewState.LOADING else ViewState.LOAD_MORE) {
                 launchesRepository.getPastLaunches(offset = offset, limit = dataLimit)
-            _currentPage++
-        }
+            }
+        _currentPage++
+
+    }
 
 }

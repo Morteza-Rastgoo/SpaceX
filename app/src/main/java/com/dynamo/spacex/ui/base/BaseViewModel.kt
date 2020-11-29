@@ -28,20 +28,26 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
      * Handles the threading of the coroutine in IO Dispatcher. Also changes the view state to show
      * and hide the loading and show error if necessary.
      */
-    fun launchDataLoad(loadingState: ViewState = ViewState.LOADING, block: suspend () -> Any) {
+    fun<T> launchDataLoad(
+        loadingState: ViewState = ViewState.LOADING,
+        block: suspend () -> T
+    ): T? {
+        var result: T? = null
         viewModelScope.launch {
             // TODO: 29/11/2020 AD Handle No internet condition
             viewState.value = loadingState
             try {
                 //Do the heavy work in background thread
-                withContext(Dispatchers.IO) {
+                result = withContext(Dispatchers.IO) {
                     block()
                 }
                 viewState.value = ViewState.SHOW_DATA
             } catch (e: Exception) {
+                e.printStackTrace()
                 viewState.value = ViewState.GENERAL_ERROR
             }
         }
+        return result
     }
 
 }
