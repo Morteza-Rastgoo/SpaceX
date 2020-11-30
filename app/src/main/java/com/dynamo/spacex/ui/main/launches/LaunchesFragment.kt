@@ -95,9 +95,11 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
         viewModel.pastLaunches.observe(viewLifecycleOwner, {
             footerAdapter.clear()
             fastItemAdapter.setNewList(it)
-
         })
-        viewModel.getPastLaunches()
+        viewModel.apply {
+            if (pastLaunches.value?.size == 0)
+                getPastLaunches()
+        }
     }
 
     /**
@@ -125,8 +127,11 @@ class LaunchesFragment : BaseFragment(R.layout.fragment_launches) {
                         error.icon.setImageResource(R.drawable.ic_baseline_error_outline_24)
                         error.textViewError.text = getString(R.string.sorry_something_went_wrong)
                     }
+                    LOAD_MORE -> {
+                        //Do nothing
+                    }
                     else -> {
-
+                        throw IllegalArgumentException("Unknown view state.")
                     }
                 }
             }

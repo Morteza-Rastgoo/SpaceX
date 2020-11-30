@@ -2,8 +2,8 @@ package com.dynamo.spacex.ui.main.launchdetail
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.dynamo.spacex.MainActivity
 import com.dynamo.spacex.R
 import com.dynamo.spacex.databinding.LaunchDetailsFragmentBinding
 import com.dynamo.spacex.ui.base.BaseFragment
@@ -18,7 +18,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
  * @since : 28/11/2020 AD
  **/
 class LaunchDetailsFragment : BaseFragment(R.layout.launch_details_fragment) {
-    private val viewModel: LaunchDetailsViewModel by viewModels()
     private val binding: LaunchDetailsFragmentBinding by viewBinding()
     private val args: LaunchDetailsFragmentArgs by navArgs()
 
@@ -30,7 +29,12 @@ class LaunchDetailsFragment : BaseFragment(R.layout.launch_details_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             args.pastLaunch.apply {
-                imageView.loadUrl(imageLink, isCircle = true)
+                (requireActivity() as MainActivity).supportActionBar?.title = missionName
+                imageView.loadUrl(
+                    imageLink,
+                    isCircle = true,
+                    placeHolder = R.drawable.ic_launcher_foreground
+                )
                 textViewName.text = missionName
                 textViewDate.text = date
                 textViewDescription.text = description

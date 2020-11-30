@@ -9,11 +9,6 @@ import kotlin.math.roundToInt
  **/
 
 /**
- * Format the integer number to two part string
- */
-fun Int.formatToMilitary(): String = if (this < 10) "0$this" else this.toString()
-
-/**
  * converts dp to pixels based on display metrics
 
  * @param dp dp that should be convert to pixels

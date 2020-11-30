@@ -1,4 +1,4 @@
-package com.dynamo.spacex.util.extensions
+package com.dynamo.spacex.util
 
 import android.os.Handler
 import android.os.Looper

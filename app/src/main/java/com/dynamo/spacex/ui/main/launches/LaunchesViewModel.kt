@@ -16,6 +16,7 @@ import javax.inject.Inject
  **/
 class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: GetPastLaunchesUseCase) :
     BaseViewModel() {
+
     /**
      * List of Past Launches of SpaceX
      */
@@ -32,8 +33,6 @@ class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: 
      * Current page of pagination
      */
     private var _currentPage = MutableLiveData(0)
-    val currentPage: LiveData<Int>
-        get() = _currentPage
 
     /**
      * Resets the pagination when needed
@@ -46,14 +45,14 @@ class LaunchesViewModel @Inject constructor(private val getPastLaunchesUseCase: 
      * Loads past launches. This will also handle the pagination.
      */
     fun getPastLaunches() {
-        val offset = currentPage.value!! * dataLimit
-        launchDataLoad(if (currentPage.value == 0) ViewState.LOADING else ViewState.LOAD_MORE) {
+        val offset = _currentPage.value!! * dataLimit
+        launchDataLoad(if (_currentPage.value == 0) ViewState.LOADING else ViewState.LOAD_MORE) {
             getPastLaunchesUseCase.invoke(offset).doOnSuccess {
                 _pastLaunches.apply {
                     value?.addAll(it)
                     notifyObservers()
                 }
-                _currentPage.value = currentPage.value!! + 1
+                _currentPage.value = _currentPage.value!! + 1
             }
         }
     }
