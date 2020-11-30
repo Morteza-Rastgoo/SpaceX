@@ -3,7 +3,6 @@ package com.dynamo.spacex.data.repository
 import com.dynamo.spacex.data.network.LaunchesService
 import com.dynamo.spacex.data.repository.model.PastLaunch
 import com.dynamo.spacex.util.DateUtils
-import com.dynamo.spacex.util.YoutubeUtils
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,9 +37,10 @@ class LaunchesRepository @Inject constructor(private val launchesService: Launch
                             "Rocket type: ${it.rocket?.rocket_type}\n" +
                             "Launch site: ${it.launch_site?.site_name}\n" +
                             "Year: ${it.launch_year}\n" +
-                            "Launch success: " + if (it.launch_success) "Yes" else "No",
-                    youtubeId = it.links?.video_link?.let { it1 -> YoutubeUtils.getYouTubeId(it1) },
-                    imageLink = it.links?.flickr_images?.firstOrNull() ?: it.links?.mission_patch
+                            "Launch success: " +( if (it.launch_success) "Yes" else "No") + "\n" +
+                            "${it.details}",
+                    youtubeId = it.links?.youtube_id,
+                    imageLink = it.links?.flickr_images?.firstOrNull() ?: it.links?.mission_patch_small
                     ?: "",
                 )
             }
