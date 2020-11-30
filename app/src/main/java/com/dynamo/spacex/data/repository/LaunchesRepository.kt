@@ -2,8 +2,8 @@ package com.dynamo.spacex.data.repository
 
 import com.dynamo.spacex.data.network.LaunchesService
 import com.dynamo.spacex.data.repository.model.PastLaunch
-import com.dynamo.spacex.util.extensions.getYouTubeId
-import com.dynamo.spacex.util.extensions.parseDate
+import com.dynamo.spacex.util.DateUtils
+import com.dynamo.spacex.util.YoutubeUtils
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,13 +33,13 @@ class LaunchesRepository @Inject constructor(private val launchesService: Launch
                 PastLaunch(
                     flightNumber = it.flight_number,
                     missionName = it.mission_name,
-                    date = it.launch_date_utc.parseDate(),
+                    date = DateUtils.parseDate(it.launch_date_utc),
                     description = "Rocket name: ${it.rocket?.rocket_name}\n" +
                             "Rocket type: ${it.rocket?.rocket_type}\n" +
                             "Launch site: ${it.launch_site?.site_name}\n" +
                             "Year: ${it.launch_year}\n" +
                             "Launch success: " + if (it.launch_success) "Yes" else "No",
-                    youtubeId = it.links?.video_link.getYouTubeId(),
+                    youtubeId = it.links?.video_link?.let { it1 -> YoutubeUtils.getYouTubeId(it1) },
                     imageLink = it.links?.flickr_images?.firstOrNull() ?: it.links?.mission_patch
                     ?: "",
                 )
