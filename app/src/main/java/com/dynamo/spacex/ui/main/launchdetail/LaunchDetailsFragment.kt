@@ -3,6 +3,7 @@ package com.dynamo.spacex.ui.main.launchdetail
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
+import com.dynamo.spacex.MainActivity
 import com.dynamo.spacex.R
 import com.dynamo.spacex.databinding.LaunchDetailsFragmentBinding
 import com.dynamo.spacex.ui.base.BaseFragment
@@ -28,7 +29,12 @@ class LaunchDetailsFragment : BaseFragment(R.layout.launch_details_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             args.pastLaunch.apply {
-                imageView.loadUrl(imageLink, isCircle = true, placeHolder = R.drawable.ic_launcher_foreground)
+                (requireActivity() as MainActivity).supportActionBar?.title = missionName
+                imageView.loadUrl(
+                    imageLink,
+                    isCircle = true,
+                    placeHolder = R.drawable.ic_launcher_foreground
+                )
                 textViewName.text = missionName
                 textViewDate.text = date
                 textViewDescription.text = description
