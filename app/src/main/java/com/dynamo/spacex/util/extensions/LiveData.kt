@@ -8,20 +8,6 @@ import androidx.lifecycle.MutableLiveData
  **/
 
 /**
- * Set new value to mutable live data if its new value
- */
-fun <T> MutableLiveData<T>.setValueIfNew(newValue: T) {
-    if (this.value != newValue) value = newValue
-}
-
-/**
- * Post new value to mutable live data if its new value
- */
-fun <T> MutableLiveData<T>.postValueIfNew(newValue: T) {
-    if (this.value != newValue) postValue(newValue)
-}
-
-/**
  * Notify mutable live data observer
  */
 fun <T> MutableLiveData<T>.notifyObservers(newValue: T? = null) {

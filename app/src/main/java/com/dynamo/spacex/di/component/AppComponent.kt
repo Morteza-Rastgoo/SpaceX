@@ -2,8 +2,6 @@ package com.dynamo.spacex.di.component
 
 import com.dynamo.spacex.SpaceXApplication
 import com.dynamo.spacex.di.module.AppModule
-import com.dynamo.spacex.di.module.usecase.LaunchesModule
-import com.dynamo.spacex.di.subcomponent.AppSubComponents
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -15,8 +13,6 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
-        AppSubComponents::class,
-        LaunchesModule::class,
     ]
 )
 interface AppComponent {
