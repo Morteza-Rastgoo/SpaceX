@@ -76,7 +76,8 @@ fun ImageView.loadUrl(
     url: String?,
     isCircle: Boolean = false,
     radius: Int = 0,
-    isSvg: Boolean = false
+    isSvg: Boolean = false,
+    placeHolder: Int = 0
 ) {
     if (url != null && url.isNotEmpty()) {
         val transformation = if (isCircle) {
@@ -100,6 +101,7 @@ fun ImageView.loadUrl(
         } else {
             Glide.with(this)
                 .load(url)
+                .placeholder(placeHolder)
                 .apply(RequestOptions.bitmapTransform(transformation))
                 .into(this)
         }
